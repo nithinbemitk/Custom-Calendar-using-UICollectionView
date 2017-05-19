@@ -18,50 +18,14 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    
-    /*
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-
-    NSDateComponents *components = [[NSDateComponents alloc] init];
-    
-    // Set your year and month here
-    [components setYear:2018];
-    [components setMonth:5];
-    
-    NSDate *date = [calendar dateFromComponents:components];
-    NSRange range1 = [calendar rangeOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitMonth forDate:date];
-    
-    //NSLog(@"days in month ---> %d", (int)range1.length);
-    
-    
-    
-    
-    NSDateComponents *comps = [[NSDateComponents alloc] init];
-    [comps setDay:18];
-    [comps setMonth:5];
-    [comps setYear:2017];
-    NSCalendar *gregorian = [[NSCalendar alloc]
-                             initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-    NSDate *date567 = [gregorian dateFromComponents:comps];
-    
-    
-    //NSDate *now = [NSDate date];
-    NSDateFormatter *weekday = [[NSDateFormatter alloc] init];
-    [weekday setDateFormat: @"EEEE"];
-    //NSLog(@"The day of the week is:-->  %@", [weekday stringFromDate:date567]);
-    
- 
-    NSDate *now123 = [NSDate date];
-    NSCalendar *calendar123 = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-    
-    NSDateComponents *dateComponents = [calendar123 components:NSWeekdayCalendarUnit | NSHourCalendarUnit fromDate:now123];
-    NSInteger weekday123 = [dateComponents weekday];
-    */
- 
-   
-    
 }
-
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if([segue  isEqual: @"Calendar"])
+    {
+        [segue destinationViewController];
+    }
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -69,4 +33,30 @@
 }
 
 
+- (IBAction)openCalendar:(id)sender {
+    UIAlertController * alert = [UIAlertController
+                                 alertControllerWithTitle:@"iPhone 7 Plus"
+                                 message:@"Works fine with iPhone 7 Plus only"
+                                 preferredStyle:UIAlertControllerStyleAlert];
+    
+    
+    
+    UIAlertAction* yesButton = [UIAlertAction
+                                actionWithTitle:@"Yes, please"
+                                style:UIAlertActionStyleDefault
+                                handler:^(UIAlertAction * action) {
+                                    [self performSegueWithIdentifier:@"Calendar" sender:nil];
+                                }];
+    
+    UIAlertAction* noButton = [UIAlertAction
+                               actionWithTitle:@"No, thanks"
+                               style:UIAlertActionStyleDefault
+                               handler:^(UIAlertAction * action) {
+                               }];
+    
+    [alert addAction:yesButton];
+    [alert addAction:noButton];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+}
 @end

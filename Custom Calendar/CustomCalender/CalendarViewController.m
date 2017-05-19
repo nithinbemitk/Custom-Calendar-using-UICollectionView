@@ -75,7 +75,10 @@
 #pragma mark - UISwipeGestureRecognizer Action
 -(void)didSwipeRight: (UISwipeGestureRecognizer*) recognizer {
     //NSLog(@"Swiped Right");
-    
+    [UIView transitionWithView:_calendarCollectionView
+                      duration:0.5f
+                       options:UIViewAnimationOptionTransitionCurlDown
+                    animations:^(void) {
     if(displayingMonth <= 1)
     {
         displayingYear = displayingYear - 1;
@@ -90,12 +93,16 @@
     firstDayOfTheWeek = [self toGetFirstWeekdayOfTheMonth:displayingYear withMonth:displayingMonth];
     
     [_calendarCollectionView reloadData];
-    
+} completion:NULL];
+
 }
 
 -(void)didSwipeLeft: (UISwipeGestureRecognizer*) recognizer {
     //NSLog(@"Swiped Left");
-    
+    [UIView transitionWithView:_calendarCollectionView
+                      duration:0.5f
+                       options:UIViewAnimationOptionTransitionCurlUp
+                    animations:^(void) {
     if(displayingMonth >= 12)
     {
         displayingYear = displayingYear + 1;
@@ -110,7 +117,8 @@
     firstDayOfTheWeek = [self toGetFirstWeekdayOfTheMonth:displayingYear withMonth:displayingMonth];
     
     [_calendarCollectionView reloadData];
-    
+                    } completion:NULL];
+
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer     shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
@@ -209,7 +217,7 @@
             if(numberOfDaysInMonth == 30 && numberOfDaysInMonth < 31)
             {
                 cell.dayLabel.text = [NSString stringWithFormat:@"%d",numberOfDaysInMonth];
-                cell.eventLabel.text = @"";
+                cell.eventLabel.text = @"";//Can add your events here
                 monthEndsWithFirstCell = YES;
                 
             }
@@ -218,21 +226,21 @@
                 if(!monthEndsWithSecondCell)
                 {
                     cell.dayLabel.text = [NSString stringWithFormat:@"%d",numberOfDaysInMonth - 1];
-                    cell.eventLabel.text = @"";
+                    cell.eventLabel.text = @"";//Can add your events here
                     monthEndsWithSecondCell = YES;
                     
                 }
                 else
                 {
                     cell.dayLabel.text = [NSString stringWithFormat:@"%d",numberOfDaysInMonth];
-                    cell.eventLabel.text = @"";
+                    cell.eventLabel.text = @"";//Can add your events here
                     monthEndsWithFirstCell = YES;
                 }
             }
             else
             {
                 cell.dayLabel.text = [NSString stringWithFormat:@"%d",numberOfDaysInMonth];
-                cell.eventLabel.text = @"";
+                cell.eventLabel.text = @"";//Can add your events here
             }
         }
     }
@@ -241,7 +249,7 @@
         if(firstDayOfTheWeek == 6 && numberOfDaysInMonth == 31 && !monthEndsWithFirstCell)
         {
             cell.dayLabel.text = [NSString stringWithFormat:@"%d",numberOfDaysInMonth];
-            cell.eventLabel.text = @"";
+            cell.eventLabel.text = @"";//Can add your events here
             monthEndsWithFirstCell = YES;
         }
         else
@@ -253,9 +261,20 @@
                 {
                     firstDayOfTheMonth = YES;
                     cell.dayLabel.text = [NSString stringWithFormat:@"%d",presentDay];
-                    cell.eventLabel.text = @"";//@"Event";
-                    presentDay = presentDay + 1;
+                    cell.eventLabel.text = @""; //Can add your events here
                     
+                    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:[NSDate date]];
+                    NSLog(@"%ld %d %ld %d %ld %d",(long)[components year] , displayingYear , (long)[components month] , displayingMonth , (long)[components day] , presentDay);
+                    
+                    if([components year] == displayingYear && [components month] == displayingMonth && [components day] == presentDay)
+                    {
+                        cell.dayLabel.textColor = [UIColor redColor];
+                    }
+                    else
+                    {
+                        cell.dayLabel.textColor = [UIColor blackColor];
+                    }
+                    presentDay = presentDay + 1;
                 }
                 else
                 {
