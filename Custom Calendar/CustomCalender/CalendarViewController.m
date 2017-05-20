@@ -41,7 +41,7 @@
     
     UICollectionViewFlowLayout *flow = [[UICollectionViewFlowLayout alloc] init];
     //flow.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-    flow.itemSize = CGSizeMake(_calendarCollectionView.frame.size.width/7, _calendarCollectionView.frame.size.height/5);
+    flow.itemSize = CGSizeMake(([UIScreen mainScreen].bounds.size.width-15)/7, _calendarCollectionView.frame.size.height/5);
     flow.sectionInset = UIEdgeInsetsMake(0, 0, 0, 0);
     flow.minimumInteritemSpacing = 0;
     flow.minimumLineSpacing = 0;
@@ -79,22 +79,22 @@
                       duration:0.5f
                        options:UIViewAnimationOptionTransitionCurlDown
                     animations:^(void) {
-    if(displayingMonth <= 1)
-    {
-        displayingYear = displayingYear - 1;
-        displayingMonth = 12;
-    }
-    else
-    {
-        displayingMonth = displayingMonth - 1;
-    }
+                        if(displayingMonth <= 1)
+                        {
+                            displayingYear = displayingYear - 1;
+                            displayingMonth = 12;
+                        }
+                        else
+                        {
+                            displayingMonth = displayingMonth - 1;
+                        }
+                        
+                        numberOfDaysInMonth = [self toGetNumberOfDaysInMonth:displayingYear withMonth:displayingMonth];
+                        firstDayOfTheWeek = [self toGetFirstWeekdayOfTheMonth:displayingYear withMonth:displayingMonth];
+                        
+                        [_calendarCollectionView reloadData];
+                    } completion:NULL];
     
-    numberOfDaysInMonth = [self toGetNumberOfDaysInMonth:displayingYear withMonth:displayingMonth];
-    firstDayOfTheWeek = [self toGetFirstWeekdayOfTheMonth:displayingYear withMonth:displayingMonth];
-    
-    [_calendarCollectionView reloadData];
-} completion:NULL];
-
 }
 
 -(void)didSwipeLeft: (UISwipeGestureRecognizer*) recognizer {
@@ -103,22 +103,22 @@
                       duration:0.5f
                        options:UIViewAnimationOptionTransitionCurlUp
                     animations:^(void) {
-    if(displayingMonth >= 12)
-    {
-        displayingYear = displayingYear + 1;
-        displayingMonth = 1;
-    }
-    else
-    {
-        displayingMonth = displayingMonth + 1;
-    }
-    
-    numberOfDaysInMonth = [self toGetNumberOfDaysInMonth:displayingYear withMonth:displayingMonth];
-    firstDayOfTheWeek = [self toGetFirstWeekdayOfTheMonth:displayingYear withMonth:displayingMonth];
-    
-    [_calendarCollectionView reloadData];
+                        if(displayingMonth >= 12)
+                        {
+                            displayingYear = displayingYear + 1;
+                            displayingMonth = 1;
+                        }
+                        else
+                        {
+                            displayingMonth = displayingMonth + 1;
+                        }
+                        
+                        numberOfDaysInMonth = [self toGetNumberOfDaysInMonth:displayingYear withMonth:displayingMonth];
+                        firstDayOfTheWeek = [self toGetFirstWeekdayOfTheMonth:displayingYear withMonth:displayingMonth];
+                        
+                        [_calendarCollectionView reloadData];
                     } completion:NULL];
-
+    
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer     shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
@@ -264,7 +264,6 @@
                     cell.eventLabel.text = @""; //Can add your events here
                     
                     NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:[NSDate date]];
-                    NSLog(@"%ld %d %ld %d %ld %d",(long)[components year] , displayingYear , (long)[components month] , displayingMonth , (long)[components day] , presentDay);
                     
                     if([components year] == displayingYear && [components month] == displayingMonth && [components day] == presentDay)
                     {
@@ -295,41 +294,5 @@
     return cell;
 }
 
-
-#pragma mark - UICollectionViewFlowLayout
-
-//-(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    float cellWidth = (collectionView.frame.size.width /7)-10;
-//    float cellHeight = (collectionView.frame.size.height /5)-10;
-//    
-//    return CGSizeMake(cellWidth, cellHeight);
-//    
-//}
-
-
-// Layout: Set Edges
-//- (UIEdgeInsets)collectionView:
-//(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-//    return UIEdgeInsetsMake(0,0,0,0);  // top, left, bottom, right
-//}
-//- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
-//    return 0.0;
-//}
-//
-//- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
-//    return 0.0;
-//}
-
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

@@ -4,7 +4,6 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -23,10 +22,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GxI-py-OMA">
-                                <rect key="frame" x="282" y="172.5" width="103" height="30"/>
+                                <rect key="frame" x="282" y="172" width="103" height="30"/>
                                 <state key="normal" title="Open Calendar"/>
                                 <connections>
-                                    <action selector="openCalendar:" destination="BYZ-38-t0r" eventType="touchUpInside" id="kN2-bH-2pU"/>
+                                    <segue destination="wSa-yh-fr9" kind="show" id="sBV-ws-ir5"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -36,9 +35,6 @@
                             <constraint firstItem="GxI-py-OMA" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="kzL-UM-EQZ"/>
                         </constraints>
                     </view>
-                    <connections>
-                        <segue destination="wSa-yh-fr9" kind="show" identifier="Calendar" id="7pH-GS-a94"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
